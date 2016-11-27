@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Contributing to Mozilla Marionette &amp; Firefox UI Tests using Python</title>
+    <meta name="description" content="An introduction to git for beginners">
+    <meta name="author" content="Sanyam Khurana">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/mozilla.css" id="theme">
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="reveal">
+        <!-- Any section element inside of this container is displayed as a slide -->
+        <div class="slides">
+            <section>
+                <h1>Mozilla Marionette &amp; Firefox UI Tests</h1>
+                <p>
+                    <small>
+                        Created by
+                            <a href="http://www.SanyamKhurana.com">Sanyam Khurana</a> |
+                            <a href="http://twitter.com/ErSanyamKhurana">@ErSanyamKhurana</a> |
+                            <a href="http://github.com/CuriousLearner">@CuriousLearner</a>
+                    </small>
+                </p>
+            </section>
+            <section id="fr1">
+                <h2>Who am I?</h2>
+                <p>
+                <ul>
+                    <li class="fragment">One of YOU! -- Part of the community</li>
+                    <li class="fragment">Mozilla Rep</li>
+                    <li class="fragment">Open Source Enthusiast</li>
+                    <li class="fragment">Also known as "CuriousLearner"</li>
+                </ul>
+                </p>
+            </section>
+            <section id="fr2">
+                <h2>What is Marionette?</h2>
+                <p>
+                <ul>
+                    <li class="fragment">Automation driver for Mozilla's Gecko Engine</li>
+                    <li class="fragment">Control either UI/JS of Gecko platform such as Firefox</li>
+                    <li class="fragment">Controls both Chrome and Content</li>
+                    <li class="fragment">Ability to replicate user actions</li>
+                    <li class="fragment">Among similar lines as Selenium</li>
+                </ul>
+                </p>
+            </section>
+            <section id="">
+                <h2>How does it work?</h2>
+                <p>Marionette consists of two parts:
+                <ul>
+                    <li class="fragment">A server which takes requests and executes them in Gecko</li>
+                    <li class="fragment">The client sends commands to the server and the server executes the command inside the browser.</li>
+                </ul>
+                </p>
+            </section>
+            <section>
+                <h2>But before we begin...</h2>
+                <p class="fragment">Let's learn a little bit about mach</p>
+                <p class="fragment">Mach (German for do) is a command-line interface to help developers perform common tasks.</p>
+                <p class="fragment">You build, run, test your builds using mach</p>
+                <p class="fragment">... and much more ...</p>
+            </section>
+            <section>
+                <h2>Let's install Marionette</h2>
+                <p>
+                    <pre><code class="hljs" data-trim>pip install marionette_client</code></pre>
+                </p>
+            </section>
+            <section>
+                <h2>Run Marionette enabled build</h2>
+                <p>
+                    <pre><code class="hljs" data-trim>./mach run -marionette</code></pre>
+                </p>
+            </section>
+            <section>
+                <h2>Connect our client to marionette enabled build</h2>
+                <p>
+                    <pre><code class="hljs" data-trim>from marionette import Marionette</code></pre>
+                    <pre><code class="hljs" data-trim>client = Marionette('localhost', port=2828)</code></pre>
+                </p>
+            </section>
+            <section>
+                <h2>Session Management</h2>
+                <p>
+                    <pre><code class="hljs" data-trim>client.start_session()</code></pre>
+                    <pre><code class="hljs" data-trim>client.local_port</code></pre>
+                    <pre><code class="hljs" data-trim>client.session_capabilities</code></pre>
+                    <pre><code class="hljs" data-trim>client.delete_session()</code></pre>
+                </p>
+            </section>
+            <section id="">
+                <h2>Context Management</h2>
+                <section>
+                    <p>CONTENT CONTEXT</p>
+                    <pre><code class="hljs" data-trim>client.CONTEXT_CONTENT</code></pre>
+                    <p>CHROME CONTEXT</p>
+                    <p></p>
+                    <pre><code class="hljs" data-trim>client.CONTEXT_CHROME</code></pre>
+                </section>
+                <section>
+                    <p>Set CONTEXT using set_context method</p>
+                    <pre><code class="hljs" data-trim>client.set_context(client.CONTEXT_CONTENT)</code></pre>
+                </section>
+            </section>
+            <section id="">
+                <h2>Navigation</h2>
+                <section>
+                    <span>
+                        <pre><code class="hljs" data-trim>url = 'http://mozilla.org'</code></pre>
+                        <pre><code class="hljs" data-trim>client.navigate(url)</code></pre>
+                    </span>
+                </section>
+                <section>
+                    <span>
+                        <pre><code class="hljs" data-trim>url = 'http://SanyamKhurana.com'</code></pre>
+                        <pre><code class="hljs" data-trim>client.navigate(url)</code></pre>
+                    </span>
+                </section>
+                <section>
+                    <span>
+                        <pre><code class="hljs" data-trim>client.go_back()</code></pre>
+                        <pre><code class="hljs" data-trim>client.go_forward()</code></pre>
+                    </span>
+                </section>
+                <section>
+                    <span>
+                        <pre><code class="hljs" data-trim>assert client.get_url() == url</code></pre>
+                    </span>
+                </section>
+            </section>
+            <section>
+                <h2>Manipulating DOM elements</h2>
+                <section>
+                <span>Two methods to traverse and find element in DOM
+                  <pre><code class="hljs" data-trim>find_element()</code></pre>
+                  <pre><code class="hljs" data-trim>find_elements()</code></pre>
+                </span>
+                </section>
+                <section>
+                <span>Let's play with it
+                  <pre><code class="hljs" data-trim>from marionette_driver.marionette import HTMLElement</code></pre>
+                  <pre><code class="hljs" data-trim>element = client.find_element(By.ID, 'first_name')</code></pre>
+                  <pre><code class="hljs" data-trim>assert type(element) == HTMLElement</code></pre>
+                  <pre><code class="hljs" data-trim>elements = client.find_elements(By.TAG_NAME, 'a')</code></pre>
+                  <pre><code class="hljs" data-trim>assert type(elements) == list</code></pre>
+                  <pre><code class="hljs" data-trim>element.send_keys('I love Python!')</code></pre>
+                  <pre><code class="hljs" data-trim>element.click()</code></pre>
+                  <pre><code class="hljs" data-trim>element.get_attribute()</code></pre>
+                </span>
+                </section>
+                <section>
+                    <h3>Selecting with By</h3>
+                    class name - find element having certain class:
+                    <pre><code class="hljs" data-trim>buttons = client.find_elements(By.CLASS_NAME, 'button')</code></pre>
+                </section>
+                <section>
+                    css selector - find element using a css selector:
+                    <pre><code class="hljs" data-trim>container_buttons = client.find_elements(By.CSS_SELECTOR, '#container li')</code></pre>
+                </section>
+                <section>
+                    name - find elemnts by name attribute (Not in CHROME scope):
+                    <pre><code class="hljs" data-trim>form = client.find_element(By.NAME, 'register')</code></pre>
+                </section>
+                <section>
+                    tag name - find elements with given tag name:
+                    <pre><code class="hljs" data-trim>paragraphs = client.find_elements(By.TAG_NAME, 'p')</code></pre>
+                </section>
+                <section>
+                    link text - find link elements by their innerHTML (not in CHROME scope):
+                    <pre><code class="hljs" data-trim>link = client.find_element(By.LINK_TEXT, 'I love Python!')</code></pre>
+                </section>
+                <section>
+                    partial link text - Same as link text except substrings of the innerHTML are matched (not in chrome
+                    scope):
+                    <pre><code class="hljs" data-trim>link = client.find_element(By.PARTIAL_LINK_TEXT, 'love')</code></pre>
+                </section>
+                <section>
+                    xpath - find elements using an xpath query:
+                    <pre><code class="hljs" data-trim>elem = client.find_element(By.XPATH, './/*[@id="first-name"')</code></pre>
+                </section>
+            </section>
+            <section>
+                <h2>Execute JS</h2>
+                <section>
+                    <pre>
+                        <code class="hljs" data-trim>
+                            result = client.execute_script("return arguments[0] * arguments[1];",
+            script_args=[5, 7])
+                        </code>
+                    </pre>
+                </section>
+                <section>
+                    <h3>Use Async JS function</h3>
+                    <pre>
+                        <code class="hljs" data-trim>
+                            result = client.execute_async_script("""
+            setTimeout(function() {
+            marionetteScriptFinished("finished");
+            }, arguments[0]);
+            """, script_args=[2000])
+assert result == "finished"
+                    </code>
+                    </pre>
+                </section>
+                <section>
+                    <pre><code class="hljs" data-trim>
+                        alert = self.marionette.switch_to_alert()
+text = alert.text
+alert.accept()
+                    </code></pre>
+                </section>
+            </section>
+            <section>
+                <h2>Actions &amp; Multi-Actions</h2>
+                <section>
+                    <pre><code class="hljs" data-trim>
+first_element = client.find_element(By.ID, "first_element")
+second_element = client.find_element(By.ID, "second_element")
+# create action object
+action = Actions(client)
+# add actions (press, wait, move, release) into the object
+action.press(first_element).wait(10).move(second_element).release()
+# fire all the added events
+action.perform()
+                    </code></pre>
+                </section>
+                <section>
+                    <pre><code class="hljs" data-trim>
+                        # create multiaction object
+multitouch = MultiActions(client)
+# create several action objects
+action_1 = Actions(client)
+action_2 = Actions(client)
+# add actions to each action object/finger
+action_1.press(element1).move_to(element2).release()
+action_2.press(element3).wait().release(element3)
+# fire all the added events
+multitouch.add(action_1).add(action_2).perform()
+                    </code></pre>
+                </section>
+                <section>
+                    <pre><code class="hljs" data-trim>
+                        # Wait 30 seconds for window to open, checking for its presence once
+# every 5 seconds.
+wait = Wait(client, timeout=30, interval=5,
+ignored_exceptions=errors.NoSuchWindowException)
+window = wait.until(lambda m: m.switch_to_window(42))
+                    </code></pre>
+                </section>
+            </section>
+            <section>
+                <h2>Where to go from here?</h2>
+                <p>
+                <ul>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/QA/Marionette">Mozilla Developer Network | MDN | Marionette</a></li>
+                    <li>Learn about Firefox Puppeteer</li>
+                </ul>
+                </p>
+            </section>
+            <section style="text-align: left;">
+                <h1>THE END</h1>
+                <p>
+                    Questions?
+                <hr>
+                Shout out on Twitter: <br><a href="http://www.twitter.com/ErSanyamKhurana">@ErSanyamKhurana</a> | #MozCode
+                <hr>
+                Shoot a mail at: <br><a href="mailto:Sanyam@MozPacers.org">Sanyam@MozPacers.org</a> | <a href="mailto:Sanyam@SanyamKhurana.com<br>">Sanyam@SanyamKhurana.com</a>
+                </p>
+                <hr>
+                <p>My websites: <br><a href="http://www.SanyamKhurana.com">www.SanyamKhurana.com</a> | <a href="http://www.TheGeekyWay.com">www.TheGeekyWay.com</a></p>
+            </section>
+
+        </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+        // Full list of configuration options available at:
+        // https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            history: true,
+            center: true,
+
+            transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+            // Optional reveal.js plugins
+            dependencies: [
+                {
+                    src: 'lib/js/classList.js', condition: function () {
+                    return !document.body.classList;
+                }
+                },
+                {
+                    src: 'plugin/markdown/marked.js', condition: function () {
+                    return !!document.querySelector('[data-markdown]');
+                }
+                },
+                {
+                    src: 'plugin/markdown/markdown.js', condition: function () {
+                    return !!document.querySelector('[data-markdown]');
+                }
+                },
+                {
+                    src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                    hljs.initHighlightingOnLoad();
+                }
+                },
+                {src: 'plugin/zoom-js/zoom.js', async: true},
+                {src: 'plugin/notes/notes.js', async: true}
+            ]
+        });
+
+    </script>
+
+</body>
+</html>
